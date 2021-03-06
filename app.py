@@ -1,6 +1,6 @@
 import json
 
-from flask import Flask, jsonify, render_template, request
+from flask import Flask, jsonify, render_template, request, redirect, url_for
 import requests
 
 app = Flask(__name__)
@@ -49,7 +49,7 @@ def categorise_bank_transactions(bank_account_id):
         transaction_id = request.args["transaction_id"]
         category = request.args["category"]
         requests.post(f"http://127.0.0.1:5000/api/v1.0/bank_transaction/{transaction_id}", json={"category": category})
-        # TODO redirect
+        return redirect(url_for("categorise_bank_transactions", bank_account_id=bank_account_id))
 
     data = get_api_endpoint(f"bank_transactions/{bank_account_id}?uncategorised=1")
     account_details = data["account_details"]
