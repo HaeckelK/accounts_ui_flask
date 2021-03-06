@@ -1,0 +1,13 @@
+<html>
+
+<body>
+    <a href="{{url_for('bank_index')}}">Bank Index</a>
+    <h1>Bank Transactions</h1>
+    <h2>{{account_details["bank"]}} {{account_details["name"]}}</h2>
+    {% for transaction in transactions %}
+    {{transaction}}
+    <br>
+    {% endfor %}
+</body>
+
+</html>

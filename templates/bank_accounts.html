@@ -1,0 +1,14 @@
+<html>
+
+<body>
+    <a href="{{url_for('bank_index')}}">Bank Index</a>
+    <h1>Bank Accounts</h1>
+    <ul>
+        {% for account in bank_account_details %}
+        <li>{{account}}
+        </li>
+        {% endfor %}
+        </ui>
+</body>
+
+</html>

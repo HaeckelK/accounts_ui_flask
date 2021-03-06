@@ -1,0 +1,18 @@
+<html>
+
+<body>
+    <a href="{{url_for('bank_index')}}">Bank Index</a>
+    <h1>Uncategorised Bank Transactions</h1>
+    <h2>{{account_details["bank"]}} {{account_details["name"]}}</h2>
+    {% for transaction in transactions %}
+    <form>
+        {{transaction["id"]}} {{transaction["amount"]}} <input type="text" id="category" name="category"> 
+        <input type="submit" value="Categorise">
+        <input type="hidden" id="transaction_id" name="transaction_id" value="{{transaction['id']}}">
+        <br>
+    </form>
+    {% endfor %}
+
+</body>
+
+</html>
