@@ -9,14 +9,23 @@
     </ul>
     <h2>Balances</h2>
     <ul>
-    {% for account in bank_account_details %}
-        <li>{{account["name"]}}: £{{account["balance"]}} 
-            <a href="{{url_for('bank_transactions', bank_account_id=account['id'])}}">View Transactions</a>
-            <a href="{{url_for('categorise_bank_transactions', bank_account_id=account['id'])}}">Categorise Transactions</a>
-            <a href="{{url_for('post_bank_to_ledgers', bank_account_id=account['id'])}}">Post Transactions</a>
+        {% for account in bank_account_details %}
+        <li>{{account["name"]}}: £{{account["balance"]}}
         </li>
-    {% endfor %}
+        {% endfor %}
     </ul>
+    <h2>Account Actions</h2>
+    {% for account in bank_account_details %}
+    <h3>{{account["name"]}}</h3>
+    <ul>
+        <li><a href="{{url_for('bank_transactions', bank_account_id=account['id'])}}">
+            View Transactions</a></li>
+        <li><a href="{{url_for('categorise_bank_transactions', bank_account_id=account['id'])}}">
+            Categorise Transactions ({{account["uncategorised_transactions"]}})</a></li>
+        <li><a href="{{url_for('post_bank_to_ledgers', bank_account_id=account['id'])}}">
+            Post Transactions ({{account["unposted_transactions"]}})</a></li>
+    </ul>
+    {% endfor %}
 </body>
 
 </html>
