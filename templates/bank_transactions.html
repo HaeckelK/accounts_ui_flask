@@ -8,6 +8,12 @@
     <a href="{{url_for('bank_index')}}">Bank Index</a>
     <h1>Bank Transactions</h1>
     <h2>{{account_details["bank"]}} {{account_details["name"]}}</h2>
+    {% if previous_page != -1 %}
+    <a href="{{url_for('bank_transactions', bank_account_id=account_details['id'], page=previous_page)}}">Previous</a>
+    {% endif %}
+    {% if next_page != -1 %}
+    <a href="{{url_for('bank_transactions', bank_account_id=account_details['id'], page=next_page)}}">Next</a>
+    {% endif %}
     <table>
         <tr>
             <th>ID</th>

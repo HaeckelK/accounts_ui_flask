@@ -37,10 +37,20 @@ def create_bank_account():
 
 @app.route("/bank_transactions/<bank_account_id>")
 def bank_transactions(bank_account_id):
-    data = get_api_endpoint(f"bank_transactions/{bank_account_id}")
+    page = int(request.args.get("page", default=1))
+    data = get_api_endpoint(f"bank_transactions/{bank_account_id}?limit=25&page={page}")
     account_details = data["account_details"]
     transactions = data["transactions"]
-    return render_template("bank_transactions.html", account_details=account_details, transactions=transactions)
+    if data["is_last_page"]:
+        next_page = -1
+    else:
+        next_page = page + 1
+    if page > 1:
+        previous_page = page - 1
+    else:
+        previous_page = -1
+    return render_template("bank_transactions.html", account_details=account_details, transactions=transactions,
+                           next_page=next_page, previous_page=previous_page)
 
 
 @app.route("/categorise_bank_transactions/<bank_account_id>")
