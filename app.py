@@ -61,8 +61,9 @@ def categorise_bank_transactions(bank_account_id):
 def post_bank_to_ledgers(bank_account_id):
     if request.args:
         transaction_ids = request.args.getlist("transaction_id")
-        # TODO should be able to hit multiple at once
-        return jsonify(transaction_ids)
+        query = "transaction_id=" + "&transaction_id=".join(transaction_ids)
+        get_api_endpoint(f"post_bank_transactions?{query}")
+        return redirect(url_for("post_bank_to_ledgers", bank_account_id=bank_account_id))
     data = get_api_endpoint(f"bank_transactions/{bank_account_id}?posted=0&categorised=1&reconciled=1")
     account_details = data["account_details"]
     transactions = data["transactions"]
