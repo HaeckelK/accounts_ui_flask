@@ -1,13 +1,37 @@
 <html>
 
+<head>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
 <body>
     <a href="{{url_for('bank_index')}}">Bank Index</a>
     <h1>Bank Transactions</h1>
     <h2>{{account_details["bank"]}} {{account_details["name"]}}</h2>
-    {% for transaction in transactions %}
-    {{transaction}}
-    <br>
-    {% endfor %}
+    <table>
+        <tr>
+            <th>ID</th>
+            <th>Date</th>
+            <th>Description</th>
+            <th>Amount</th>
+            <th>Category</th>
+            <th>Reconciled</th>
+            <th>Posted</th>
+        </tr>
+        {% for transaction in transactions %}
+        <tr>
+            <td>{{transaction["id"]}}</td>
+            <td>Date</td>
+            <td>
+                <p class="description_field">Description</p>
+            </td>
+            <td class="monetary_field">£{{transaction["amount"]}}</td>
+            <td>{{transaction["category"]}}</td>
+            <td>{{transaction["reconciled"]}}</td>
+            <td>{{transaction["posted"]}}</td>
+        </tr>
+        {% endfor %}
+    </table>
 </body>
 
 </html>

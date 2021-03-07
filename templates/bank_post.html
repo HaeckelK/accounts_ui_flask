@@ -1,0 +1,59 @@
+<html>
+
+<head>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+    <a href="{{url_for('bank_index')}}">Bank Index</a>
+    <h1>Post Transactions to Ledgers</h1>
+    <h2>{{account_details["bank"]}} {{account_details["name"]}}</h2>
+    Value of transactions to post: <span id="val"></span><br>
+    <table id="transactionTable">
+        <tr>
+            <th>ID</th>
+            <th>Date</th>
+            <th>Description</th>
+            <th>Amount (£)</th>
+            <th>Category</th>
+            <th>Action</th>
+        </tr>
+        <form>
+            <input type="submit" value="Post to Ledgers">
+            <br>
+            <br>
+            {% for transaction in transactions %}
+            <tr id="{{transaction['id']}}">
+                <td>{{transaction["id"]}}</td>
+                <td>Date</td>
+                <td>
+                    <p class="description_field">Description</p>
+                </td>
+                <td class="monetary_field">{{transaction["amount"]}}</td>
+                <td>{{transaction["category"]}}</td>
+                <td><button onclick="removeElementById('{{transaction['id']}}')">Remove</button></td>
+                <input type="hidden" id="transaction_id" name="transaction_id" value="{{transaction['id']}}">
+            </tr>
+            {% endfor %}
+        </form>
+    </table>
+
+    
+    <script>
+        updateTotal();
+        function removeElementById(elementId) {
+            var myobj = document.getElementById(elementId);
+            myobj.remove();
+            updateTotal();
+        }
+        function updateTotal() {
+            var table = document.getElementById("transactionTable");
+            let subTotal = Array.from(table.rows).slice(1).reduce((total, row) => {
+                return total + parseFloat(row.cells[3].innerHTML);
+            }, 0);
+            document.getElementById("val").innerHTML = "£" + subTotal.toFixed(2);
+        }
+    </script>
+</body>
+
+</html>

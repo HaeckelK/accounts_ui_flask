@@ -48,13 +48,25 @@ def categorise_bank_transactions(bank_account_id):
     if request.args:
         transaction_id = request.args["transaction_id"]
         category = request.args["category"]
-        requests.post(f"http://127.0.0.1:5000/api/v1.0/bank_transaction/{transaction_id}", json={"category": category})
+        requests.put(f"http://127.0.0.1:5000/api/v1.0/bank_transaction/{transaction_id}", json={"category": category})
         return redirect(url_for("categorise_bank_transactions", bank_account_id=bank_account_id))
 
     data = get_api_endpoint(f"bank_transactions/{bank_account_id}?uncategorised=1")
     account_details = data["account_details"]
     transactions = data["transactions"]
     return render_template("categorise_bank_transactions.html", account_details=account_details, transactions=transactions)
+
+
+@app.route("/bank/post/<bank_account_id>")
+def post_bank_to_ledgers(bank_account_id):
+    if request.args:
+        transaction_ids = request.args.getlist("transaction_id")
+        # TODO should be able to hit multiple at once
+        return jsonify(transaction_ids)
+    data = get_api_endpoint(f"bank_transactions/{bank_account_id}?posted=0&categorised=1&reconciled=1")
+    account_details = data["account_details"]
+    transactions = data["transactions"]
+    return render_template("bank_post.html", account_details=account_details, transactions=transactions)
 
 
 if __name__ == '__main__':
